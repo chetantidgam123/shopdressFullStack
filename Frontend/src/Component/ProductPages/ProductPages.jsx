@@ -8,6 +8,7 @@ import Sidebar from './Sidebar/Sidebar';
 import { useRef } from 'react';
 import { data } from 'jquery';
 import { useSearchParams } from 'react-router-dom';
+import axios from 'axios';
 
 export default function ProductPages() {
   const [state,setState] = useState([]);
@@ -15,10 +16,13 @@ export default function ProductPages() {
   const [price,setPrice] = useState([0,500]);
   let [checkBox, setCheckBox] = useState("");
   useEffect(()=>{
-    fetch(`https://dead-gold-binturong-kilt.cyclic.app/Product_Data`).then((res)=>res.json()).then((data)=>{
-      // console.log(data);
-      setFixed(data);
-      setState(data);
+    axios.get("https://dull-plum-parrot-boot.cyclic.app/products",{
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin":"include"},withCredentials:true
+    })
+    // fetch(`https://dead-gold-binturong-kilt.cyclic.app/Product_Data`).then((res)=>res.json())
+    .then((data)=>{
+      setFixed(data.data);
+      setState(data.data);
       scrollToTop();
     })
   },[])

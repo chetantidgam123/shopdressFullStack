@@ -26,7 +26,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { FaUser } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { json, Link } from 'react-router-dom';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import CaptionCarousel from './CaptionCarousel';
 import { useDispatch, useSelector } from 'react-redux';
@@ -36,6 +36,7 @@ import { gapi } from 'gapi-script';
 import { useFormik } from 'formik';
 import { SignUpSchema } from './Schema';
 import store from '../../Store/Store';
+import axios from 'axios';
 
 
 export default function Login() {
@@ -105,29 +106,55 @@ export default function Login() {
   // }
 
   const login = async () => {
-    const match = await Array.filter((ele) => {
-      return ele.email == loginData.email && ele.password == loginData.password
-    })
-    if (match.length === 0) {
-      toaster('error', 'Wrong Credentials')
-    } else {
-      localStorage.setItem('userName', match[0].fname)
-      toaster('success', 'Login Successfully')
-      onClose()
+    let jbody ={
+      email:loginData.email,
+      password:loginData.password,
     }
+
+    axios.post("https://dull-plum-parrot-boot.cyclic.app/login",jbody,{
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin":"include"},withCredentials:true
+    })
+    .then((data)=>{
+      if(data.data.status){
+        localStorage.setItem('token',JSON.stringify(data.data.token))
+        toaster('success', data.message)
+        onClose()
+      }else{
+      toaster('error', data.message)
+      }
+    })
+    .catch(err=>console.log(err))
+
+    // const match = await Array.filter((ele) => {
+    //   return ele.email == loginData.email && ele.password == loginData.password
+    // })
+    // if (match.length === 0) {
+    //   toaster('error', 'Wrong Credentials')
+    // } else {
+    //   localStorage.setItem('userName', match[0].fname)
+    //   toaster('success', 'Login Successfully')
+    //   onClose()
+    // }
 
   }
   const signUp = (data) => {
-    fetch("https://dead-gold-binturong-kilt.cyclic.app/users", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    }).then(() => {
+    let bodyData={
+      firstname:data.fname,
+      lastname:data.lname,
+      email:data.email,
+      password:data.password
+    }
+    axios.post("https://dull-plum-parrot-boot.cyclic.app/signup",bodyData, {
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin":"include"},withCredentials:true
+    }).then((res) => {
       toaster('success', 'Account Created Successfully')
       onClose2()
       onOpen()
       UserData(dispatch)
     })
+    .catch((err=>{
+      console.log(err);
+    }))
   }
 
 const toaster = (type, msg) => {
