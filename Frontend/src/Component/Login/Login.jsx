@@ -83,9 +83,17 @@ export default function Login() {
   const finalRef = React.useRef(null)
   const onSuccess = (res) => {
     onClose();
-    var token = res.tokenId.slice(0, 30)
-    localStorage.setItem("TokenID", token)
-    localStorage.setItem("userName", res.profileObj.givenName)
+    let jbody  = {
+      firstname:res.profileObj.givenName,
+      lastname:res.profileObj.familyName,
+      email:res.profileObj.email,
+      password:res.profileObj.googleId,
+    }
+    axios.post("https://dull-plum-parrot-boot.cyclic.app/signup",jbody, {
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin":"include"},withCredentials:true
+    }).then((data)=>{
+     loginWithGoogle(jbody)
+    })
   };
   const onFailure = (err) => {
     console.log('failed:', err);
@@ -105,18 +113,18 @@ export default function Login() {
   //  })
   // }
 
-  const login = async () => {
-    let jbody ={
-      email:loginData.email,
-      password:loginData.password,
-    }
 
+  const loginWithGoogle = async(data)=>{
+    let jbody ={
+      email:data.email,
+      password:data.password,
+    }
     axios.post("https://dull-plum-parrot-boot.cyclic.app/login",jbody,{
       headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin":"include"},withCredentials:true
     })
     .then((data)=>{
       if(data.data.status){
-        localStorage.setItem('token',JSON.stringify(data.data.token))
+        localStorage.setItem('TokenID',JSON.stringify(data.data.token))
         toaster('success', data.message)
         onClose()
       }else{
@@ -124,19 +132,30 @@ export default function Login() {
       }
     })
     .catch(err=>console.log(err))
-
-    // const match = await Array.filter((ele) => {
-    //   return ele.email == loginData.email && ele.password == loginData.password
-    // })
-    // if (match.length === 0) {
-    //   toaster('error', 'Wrong Credentials')
-    // } else {
-    //   localStorage.setItem('userName', match[0].fname)
-    //   toaster('success', 'Login Successfully')
-    //   onClose()
-    // }
-
   }
+
+
+  const login = async () => {
+    let jbody ={
+      email:loginData.email,
+      password:loginData.password,
+    }
+    axios.post("https://dull-plum-parrot-boot.cyclic.app/login",jbody,{
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin":"include"},withCredentials:true
+    })
+    .then((data)=>{
+      if(data.data.status){
+        localStorage.setItem('TokenID',JSON.stringify(data.data.token))
+        toaster('success', data.message)
+        onClose()
+      }else{
+      toaster('error', data.message)
+      }
+    })
+    .catch(err=>console.log(err))
+  }
+
+
   const signUp = (data) => {
     let bodyData={
       firstname:data.fname,
