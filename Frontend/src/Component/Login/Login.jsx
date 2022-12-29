@@ -120,7 +120,7 @@ export default function Login() {
       password:data.password,
     }
     axios.post("https://dull-plum-parrot-boot.cyclic.app/login",jbody,{
-      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin":"include"},withCredentials:true
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin":"include"},withCredentials:true,
     })
     .then((data)=>{
       if(data.data.status){
