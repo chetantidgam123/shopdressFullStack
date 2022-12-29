@@ -6,7 +6,7 @@ export  const GetCartData = (dispatch)=>{
 
    const getDatabyId = async (id)=>{
     let data = ''
-       await axios.get(`http://localhost:3066/product/${id}`)
+       await axios.get(`https://dull-plum-parrot-boot.cyclic.app/product/${id}`)
        .then((res)=>{ res.json()})
        .then((data)=>{
             data =  data.data.data;
@@ -14,7 +14,7 @@ export  const GetCartData = (dispatch)=>{
         return data;
    }
        async function GetData(){
-        axios.get('http://localhost:3066/user/cart',{ 
+        axios.get('https://dull-plum-parrot-boot.cyclic.app/user/cart',{ 
             headers: { 
                 "Authorization" : `Bearer ${localStorage.getItem("TokenID")}`,
                }
