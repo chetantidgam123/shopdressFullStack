@@ -38,7 +38,7 @@ import Login from "../Login/Login";
 import React, { useState } from "react";
 // import {Display} from "../ProductPages/Plist"
 import { GoogleLogout } from "react-google-login";
-
+import jwt_decode from "jwt-decode";
 export default function Navbar() {
   const { isOpen: isLogout, onOpen: onOpenLogout, onClose: onCloseLogout } = useDisclosure()
   const cancelRef = React.useRef()
@@ -97,8 +97,16 @@ export default function Navbar() {
     return Displayy(Search);
   }
   const myFunction=()=> {
+    let token  = localStorage.getItem('TokenID')
     document.getElementById("myDropdown").classList.toggle("show");
-    setUserName(localStorage.getItem('userName') ? localStorage.getItem('userName') : 'User !')
+    // setUserName(localStorage.getItem('userName') ? localStorage.getItem('userName') : 'User !')
+    if(token){
+      var decoded = jwt_decode(token);
+      setUserName(decoded.name)
+      console.log(decoded);
+    }else{
+      setUserName('User !')
+    }
   }
   window.onclick = function (event) {
     if (!event.target.matches('.dropbtn')) {
