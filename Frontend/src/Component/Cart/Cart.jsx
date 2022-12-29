@@ -12,7 +12,6 @@ import { useDispatch , useSelector} from 'react-redux';
 let Data=0;
 export default function Cart() {
   let Array=useSelector((state)=>{ return state.ShopDressReducer.Cart})||[]
-  
   let dispatch=useDispatch();
 
   useEffect(()=>{
@@ -37,7 +36,7 @@ export default function Cart() {
           <ul>
            {
             Array.map((el,index)=>{
-              return <li key={el.id} style={{display:"flex", width:"100%", paddingRight:"7px" ,paddingLeft:"13px", marginBottom:"10px", paddingBottom:"15px" }}> 
+              return <li key={index} style={{display:"flex", width:"100%", paddingRight:"7px" ,paddingLeft:"13px", marginBottom:"10px", paddingBottom:"15px" }}> 
                          
                          <img src={el.image_1} style={{width:"22%", marginRight:"18px"}} />
                          <span style={{display:"flex", flexDirection:"column", justifyContent:"space-between", paddingBottom:'14px'}}>

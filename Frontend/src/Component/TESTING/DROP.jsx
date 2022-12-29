@@ -103,7 +103,6 @@ export default function Navbar() {
     if(token){
       var decoded = jwt_decode(token);
       setUserName(decoded.name)
-      console.log(decoded);
     }else{
       setUserName('User !')
     }

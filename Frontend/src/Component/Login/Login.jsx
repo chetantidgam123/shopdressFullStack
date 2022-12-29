@@ -124,7 +124,9 @@ export default function Login() {
     })
     .then((data)=>{
       if(data.data.status){
-        localStorage.setItem('TokenID',JSON.stringify(data.data.token))
+        let token = data.data.token.replace('"', '');
+        console.log(token);
+        localStorage.setItem('TokenID',token)
         toaster('success', data.message)
         onClose()
       }else{
@@ -145,7 +147,9 @@ export default function Login() {
     })
     .then((data)=>{
       if(data.data.status){
-        localStorage.setItem('TokenID',JSON.stringify(data.data.token))
+        let token = data.data.token.replace('"', '');
+        console.log(token);
+        localStorage.setItem('TokenID',token)
         toaster('success', data.message)
         onClose()
       }else{

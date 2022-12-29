@@ -5,9 +5,9 @@ import {Link} from "react-router-dom";
 
 export function Display(state){
   return  <div className='list-item'>
-  {state.map((e)=>{
+  {state.map((e,i)=>{
     return <>
-    <div key={e.id}>
+    <div key={i}>
   <div  className="image-box">
     <div className="imageshow">
     <img src={e.image_1} alt="" />
@@ -32,17 +32,6 @@ export function Display(state){
 }
 
 const Plist = ({array,sorting,setState,sold}) => {
-
-// const [state,setState] = useState([]);
-
-
-
-
-
-
-
-
-  // console.log(dress);
   return (<>
   <div className='main-box-a'>
     <div className='select-box-a'>
@@ -61,14 +50,14 @@ const Plist = ({array,sorting,setState,sold}) => {
     </div>
 
  <div className='list-item' style={array.length==0 ? {display:"flex", justifyContent:"center",alignItems:"center"} : {left:"0"}}>
-  {array.length==0 ? <img src = "https://miro.medium.com/max/1400/1*CsJ05WEGfunYMLGfsT2sXA.gif" width="35%" /> :  <> {array.map((e)=>{
-    return <div key={e.id}>
+  {array.length==0 ? <img src = "https://miro.medium.com/max/1400/1*CsJ05WEGfunYMLGfsT2sXA.gif" width="35%" /> :  <> {array.map((e,i)=>{
+    return <div key={i}>
   <div  className="image-box">
     <div className="imageshow">
     <img src={e.image_1} alt="" />
     <div className="imagehide">
     <img src={e.image_2} className="hover-img" alt="" />
-     <Link to={`/Productspage/${e.id}`} className='quickView'>Quick View</Link>
+     <Link to={`/Productspage/${e._id}`} className='quickView'>Quick View</Link>
     </div>
     </div>
   </div>

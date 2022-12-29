@@ -1,16 +1,44 @@
+import axios from "axios";
+import { data } from "jquery";
 import { json } from "react-router-dom";
 
 export  const GetCartData = (dispatch)=>{
 
-   
-       async function GetData(){
-        // let res = await fetch('https://dead-gold-binturong-kilt.cyclic.app/cart');
-        let data= JSON.parse(localStorage.getItem('CartData'))||[];
-    
-        dispatch({
-            type:"GETCARTDATA",
-            payload:data
+   const getDatabyId = async (id)=>{
+    let data = ''
+       await axios.get(`http://localhost:3066/product/${id}`)
+       .then((res)=>{ res.json()})
+       .then((data)=>{
+            data =  data.data.data;
         })
+        return data;
+   }
+       async function GetData(){
+        axios.get('http://localhost:3066/user/cart',{ 
+            headers: { 
+                "Authorization" : `Bearer ${localStorage.getItem("TokenID")}`,
+               }
+        })
+        .then(async (data)=>{
+            let b =[]
+            let a = data.data.data
+            b = await a.map((ele)=>{
+                let data = getDatabyId(ele.productId)
+                return data
+            })
+            console.log(b);
+            dispatch({
+                type:"GETCARTDATA",
+                payload:b
+            })
+        })
+        // let res = await fetch('https://dead-gold-binturong-kilt.cyclic.app/cart');
+        // let data= JSON.parse(localStorage.getItem('CartData'))||[];
+    
+        // dispatch({
+        //     type:"GETCARTDATA",
+        //     payload:data
+        // })
 
        }
        GetData()

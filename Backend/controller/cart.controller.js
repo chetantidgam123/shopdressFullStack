@@ -1,22 +1,36 @@
-const { CartModel } = require("../model/cart.model");
+
+const jwt =require("jsonwebtoken");
+const { UserModel } = require("../model/auth.model");
+require("dotenv").config()
+const token_secret = process.env.TOKEN_KEY;
+const getCartData = async (req, res) => {
+    let Bearer = req.headers["authorization"]
+    let splittoken = Bearer.split(" ")
+    try {
+        var decode = jwt.verify(splittoken[1], token_secret)
+        if (decode) {
+            let userEmail = decode.email
+            console.log(userEmail);
+            let user = await UserModel.findOne({email: userEmail });
+            if (user) {
+                return res.send({
+                    data: user.cartItem,
+                    message: ""
+                })
+            } else {
+                return res.send({
+                    message: "something went wrong"
+                })
+            }
 
 
-const addProd = async(req,res)=>{
-      let {name}  = req.body;
-      let prod = await CartModel.create({name:name})
-     return res.send(
-        {
-            message:"Added",
-            data:prod
+        }
+
+    } catch (error) {
+        return res.send(error)
     }
-     )
-  }
-  const getProd = async(req,res)=>{
-    let cart_products  = await CartModel.find()
-    return res.send(cart_products)
-   }
+}
 
-   module.exports = {
-    getProd,
-    addProd
-   }
+module.exports = {
+    getCartData
+}
