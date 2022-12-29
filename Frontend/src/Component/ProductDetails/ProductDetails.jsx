@@ -24,6 +24,7 @@ import { NavLink, Link, useParams, useNavigate } from "react-router-dom";
 import "./ProductDetails.css";
 import { useDispatch } from "react-redux";
 import { GetCartData } from "../../Actions/CartAction";
+import axios from "axios";
 const imgArray = [
   {
    
@@ -100,6 +101,14 @@ function ProductDetails(props) {
     setlgImg(img);
   };
   async function AddtoCart(taskk){
+    axios.get(`http://localhost:3066/addtocart/${taskk._id}`,{
+      headers: { 
+         "Authorization" : `Bearer ${localStorage.getItem("TokenID")}`,
+        }
+    })
+    .then((data)=>{
+      console.log('add',data.data);
+    })
     cartData.push(taskk)
     localStorage.setItem('CartData',JSON.stringify(cartData));
     GetCartData(dispatch)
@@ -116,10 +125,12 @@ function ProductDetails(props) {
     }
    }
   const getDetails=(id)=>{
-    fetch('https://dead-gold-binturong-kilt.cyclic.app/Product_Data/'+id)
-    .then(res=>res.json())
-    .then((data)=>{
-      
+
+    axios.get(`https://dull-plum-parrot-boot.cyclic.app/product/${id}`)
+    // fetch('https://dull-plum-parrot-boot.cyclic.app/product/'+id)
+    // .then(res=>res.json())
+    .then((res)=>{
+      let data = res.data.data
     imgArray[0].img = data.image_1
     imgArray[1].img = data.image_2
     imgArray[2].img = data.image_3
