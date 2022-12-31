@@ -101,7 +101,7 @@ function ProductDetails(props) {
     setlgImg(img);
   };
   async function AddtoCart(taskk){
-    axios.get(`https://dull-plum-parrot-boot.cyclic.app/addtocart/${taskk._id}`,{
+    axios.get(`http://localhost:3066/addtocart/${taskk._id}`,{
       headers: { 
          "Authorization" : `Bearer ${localStorage.getItem("TokenID")}`,
         }
@@ -126,7 +126,7 @@ function ProductDetails(props) {
    }
   const getDetails=(id)=>{
 
-    axios.get(`https://dull-plum-parrot-boot.cyclic.app/product/${id}`)
+    axios.get(`http://localhost:3066/product/${id}`)
     // fetch('https://dull-plum-parrot-boot.cyclic.app/product/'+id)
     // .then(res=>res.json())
     .then((res)=>{

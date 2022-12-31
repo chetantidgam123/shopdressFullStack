@@ -16,7 +16,7 @@ export default function ProductPages() {
   const [price,setPrice] = useState([0,500]);
   let [checkBox, setCheckBox] = useState("");
   useEffect(()=>{
-    axios.get("https://dull-plum-parrot-boot.cyclic.app/products",{
+    axios.get("http://localhost:3066/products",{
       headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin":"include"},withCredentials:true
     })
     // fetch(`https://dead-gold-binturong-kilt.cyclic.app/Product_Data`).then((res)=>res.json())

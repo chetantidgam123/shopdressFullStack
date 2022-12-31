@@ -89,7 +89,7 @@ export default function Login() {
       email:res.profileObj.email,
       password:res.profileObj.googleId,
     }
-    axios.post("https://dull-plum-parrot-boot.cyclic.app/signup",jbody, {
+    axios.post("http://localhost:3066/signup",jbody, {
       headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin":"include"},withCredentials:true
     }).then((data)=>{
      loginWithGoogle(jbody)
@@ -119,7 +119,7 @@ export default function Login() {
       email:data.email,
       password:data.password,
     }
-    axios.post("https://dull-plum-parrot-boot.cyclic.app/login",jbody,{
+    axios.post("http://localhost:3066/login",jbody,{
       headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin":"include"},withCredentials:true,
     })
     .then((data)=>{
@@ -142,7 +142,7 @@ export default function Login() {
       email:loginData.email,
       password:loginData.password,
     }
-    axios.post("https://dull-plum-parrot-boot.cyclic.app/login",jbody,{
+    axios.post("http://localhost:3066/login",jbody,{
       headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin":"include"},withCredentials:true
     })
     .then((data)=>{
@@ -167,7 +167,7 @@ export default function Login() {
       email:data.email,
       password:data.password
     }
-    axios.post("https://dull-plum-parrot-boot.cyclic.app/signup",bodyData, {
+    axios.post(" http://localhost:3066/signup",bodyData, {
       headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin":"include"},withCredentials:true
     }).then((res) => {
       toaster('success', 'Account Created Successfully')

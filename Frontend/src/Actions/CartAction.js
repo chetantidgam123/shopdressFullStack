@@ -6,27 +6,27 @@ export  const GetCartData = (dispatch)=>{
 
    const getDatabyId = async (id)=>{
     let data = ''
-       await axios.get(`https://dull-plum-parrot-boot.cyclic.app/product/${id}`)
-       .then((res)=>{ res.json()})
+       await axios.get(`http://localhost:3066/product/${id}`)
+       //.then((res)=>{ res})
        .then((data)=>{
             data =  data.data.data;
         })
         return data;
    }
        async function GetData(){
-        axios.get('https://dull-plum-parrot-boot.cyclic.app/user/cart',{ 
+        axios.get('http://localhost:3066/user/cart',{ 
             headers: { 
                 "Authorization" : `Bearer ${localStorage.getItem("TokenID")}`,
                }
         })
         .then(async (data)=>{
+            console.log(data);
             let b =[]
             let a = data.data.data
             b = await a.map((ele)=>{
                 let data = getDatabyId(ele.productId)
                 return data
             })
-            console.log(b);
             dispatch({
                 type:"GETCARTDATA",
                 payload:b
