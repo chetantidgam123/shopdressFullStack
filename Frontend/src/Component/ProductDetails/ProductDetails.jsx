@@ -22,9 +22,10 @@ import CARTMENU, {SearchDiv,SearchBar}from "../Cart/Cartt"
 import { FaFacebookF, FaPinterestP, FaTwitter } from "react-icons/fa";
 import { NavLink, Link, useParams, useNavigate } from "react-router-dom";
 import "./ProductDetails.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { GetCartData } from "../../Actions/CartAction";
 import axios from "axios";
+import { Message } from "semantic-ui-react";
 const imgArray = [
   {
    
@@ -59,7 +60,8 @@ const otherImg = [
 ]
 
 function ProductDetails(props) {
-   const dispatch=useDispatch();
+  const dispatch=useDispatch();
+  let Array = useSelector((state) => { return state.ShopDressReducer.Cart }) || []
   const [prodData, setprodData] = useState({});
   const [disable, setDisable] = useState(false);
   const [sideImg, setsideImage] = useState([]);
@@ -77,7 +79,7 @@ function ProductDetails(props) {
     })
   }
 
-  var cartData = JSON.parse(localStorage.getItem('CartData'))||[]
+  // var cartData = JSON.parse(localStorage.getItem('CartData'))||[]
   useEffect(() => {
     let d=localStorage.getItem("Searchisopen") ||"kk"
     if(d=="true"){
@@ -101,24 +103,24 @@ function ProductDetails(props) {
     setlgImg(img);
   };
   async function AddtoCart(taskk){
-    axios.get(`https://dull-plum-parrot-boot.cyclic.app/addtocart/${taskk._id}`,{
+    axios.get(`http://localhost:3066/user/addtocart/${taskk._id}`,{
       headers: { 
          "Authorization" : `Bearer ${localStorage.getItem("TokenID")}`,
         }
     })
-    .then((data)=>{
-      console.log('add',data.data);
+    .then(async (data)=>{
+          GetCartData(dispatch)
+          // disabelCart()
+          setDisable(true);
+         toaster('success',data.data.message)
     })
-    cartData.push(taskk)
-    localStorage.setItem('CartData',JSON.stringify(cartData));
-    GetCartData(dispatch)
-    toaster('success','Item Added To Cart Successfully !')
-    disabelCart()
+    // cartData.push(taskk)
+    // localStorage.setItem('CartData',JSON.stringify(cartData));
 
   }
   const disabelCart = ()=>{
-    for(let i = 0;i<cartData.length;i++){
-      if(cartData[i].id==params.id){
+    for(let i = 0;i<Array.length;i++){
+      if(Array[i].cartId==params.id){
         setDisable(true);
         break;
       }
@@ -126,7 +128,7 @@ function ProductDetails(props) {
    }
   const getDetails=(id)=>{
 
-    axios.get(`https://dull-plum-parrot-boot.cyclic.app/product/${id}`)
+    axios.get(`http://localhost:3066/product/${id}`)
     // fetch('https://dull-plum-parrot-boot.cyclic.app/product/'+id)
     // .then(res=>res.json())
     .then((res)=>{
