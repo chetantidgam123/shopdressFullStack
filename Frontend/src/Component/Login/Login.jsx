@@ -125,15 +125,14 @@ export default function Login() {
     .then((data)=>{
       if(data.data.status){
         let token = data.data.token.replace('"', '');
-        console.log(token);
         localStorage.setItem('TokenID',token)
-        toaster('success', data.message)
+        toaster('success', data.data.message)
         onClose()
       }else{
-      toaster('error', data.message)
+      toaster('error', data.data.message)
       }
     })
-    .catch(err=>console.log(err))
+    .catch((err)=>{toaster('error', "Something Went Wrong")})
   }
 
 
@@ -148,12 +147,11 @@ export default function Login() {
     .then((data)=>{
       if(data.data.status){
         let token = data.data.token.replace('"', '');
-        console.log(token);
         localStorage.setItem('TokenID',token)
-        toaster('success', data.message)
+        toaster('success', data.data.message)
         onClose()
       }else{
-      toaster('error', data.message)
+      toaster('error', data.data.message)
       }
     })
     .catch(err=>console.log(err))

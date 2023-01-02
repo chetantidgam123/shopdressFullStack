@@ -5,7 +5,7 @@ export default function CARTMENU() {
     if (document.getElementById("CARTDI")) {
         document.getElementById("CARTDI").id = "CARTDIV"
         localStorage.setItem("Cartisopen", "true")
-        axios.get('http://localhost:3066/user/cartitem', {
+        axios.get('https://dull-plum-parrot-boot.cyclic.app/user/cartitem', {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("TokenID")}`,
             }
@@ -39,34 +39,27 @@ export const SearchDiv = (dispatch) => {
 
 export const DecreaseQTY = (id, dispatch, Array) => {
     let temp = []
-    // let Array=store.getState().ShopDressReducer.Cart;
     Array.map((el, index, ar) => {
         if (el.cartId == id) {
-            //    if(Number(el.Qty)>1){
             el.Qty = Number(el.Qty) - 1;
             let data = {
                 "Qty": el.Qty
             }
-            axios.put(`http://localhost:3066/user/cartitem/${id}`, data, {
+            axios.put(`https://dull-plum-parrot-boot.cyclic.app/user/cartitem/${id}`, data, {
                 headers: {
                     "Content-Type": "application/json",
                     "Access-Control-Allow-Origin": "include",
                     "Authorization": `Bearer ${localStorage.getItem("TokenID")}`,
                 }
             }).then((data) => {
-                // temp = [...Array]
                 dispatch({
                     type: "GETCARTDATA",
                     payload: data.data.cartItem
                 })
             })
-            //    }else{
-            //     //  GetDeleteData(el.cartId,index,Array,dispatch);
-            //    }
         }
     })
 
-    // localStorage.setItem('CartData',JSON.stringify(temp));
 
 }
 
@@ -81,7 +74,7 @@ export const IncreaseQTY = (id, dispatch, Array) => {
             let data = {
                 "Qty": el.Qty
             }
-            axios.put(`http://localhost:3066/user/cartitem/${id}`, data, {
+            axios.put(`https://dull-plum-parrot-boot.cyclic.app/user/cartitem/${id}`, data, {
                 headers: {
                     "Content-Type": "application/json",
                     "Access-Control-Allow-Origin": "include",
@@ -89,19 +82,15 @@ export const IncreaseQTY = (id, dispatch, Array) => {
                 }
             }).then((data) => {
                 console.log(data.data.cartItem);
-                // temp = [...Array]
                 dispatch({
                     type: "GETCARTDATA",
                     payload: data.data.cartItem
                 })
             })
-
-            // GetPatchData(el,id);
         }
     })
 
 
-    localStorage.setItem('CartData', JSON.stringify(temp));
 }
 
 

@@ -4,7 +4,7 @@ import { json } from "react-router-dom";
 
 export  const GetCartData = (dispatch)=>{
        async function GetData(){
-        axios.get('http://localhost:3066/user/cartitem',{ 
+        axios.get('https://dull-plum-parrot-boot.cyclic.app/user/cartitem',{ 
             headers: { 
                 "Authorization" : `Bearer ${localStorage.getItem("TokenID")}`,
                }
@@ -32,20 +32,20 @@ export  const GetPatchData = async (Data,id,dispatch)=>{
 
 }
 export const GetDeleteData = async (id,index,Array,dispatch)=>{
-      
-      let temp=[]
-      Array.splice(index,1);
- 
-         temp=[...Array]
-     
-         dispatch({
-             type:"GETCARTDATA",
-             payload:temp
-      })
-    //   await fetch(`https://dead-gold-binturong-kilt.cyclic.app/cart/${id}`,{
-    //      method:'DELETE'
-    //   });
-    localStorage.setItem('CartData',JSON.stringify(temp));
-      
+    let data = {
+        "Qty": 0
+    }
+    axios.put(`https://dull-plum-parrot-boot.cyclic.app/user/cartitem/${id}`, data, {
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "include",
+            "Authorization": `Bearer ${localStorage.getItem("TokenID")}`,
+        }
+    }).then((data) => {
+        dispatch({
+            type: "GETCARTDATA",
+            payload: data.data.cartItem
+        })
+    })
       
 }     

@@ -24,7 +24,6 @@ const addToCart = async(req,res)=>{
       let Bearer = req.headers["authorization"]
       let splittoken = Bearer.split(" ")
       let token = splittoken[1].replace('"', '');
-      console.log(token);
       try {
       var decode=jwt.verify(token,token_secret)
       if(decode){

@@ -78,8 +78,6 @@ function ProductDetails(props) {
       position:'top-right'
     })
   }
-
-  // var cartData = JSON.parse(localStorage.getItem('CartData'))||[]
   useEffect(() => {
     let d=localStorage.getItem("Searchisopen") ||"kk"
     if(d=="true"){
@@ -103,7 +101,7 @@ function ProductDetails(props) {
     setlgImg(img);
   };
   async function AddtoCart(taskk){
-    axios.get(`http://localhost:3066/user/addtocart/${taskk._id}`,{
+    axios.get(`https://dull-plum-parrot-boot.cyclic.app/user/addtocart/${taskk._id}`,{
       headers: { 
          "Authorization" : `Bearer ${localStorage.getItem("TokenID")}`,
         }
@@ -113,9 +111,9 @@ function ProductDetails(props) {
           // disabelCart()
           setDisable(true);
          toaster('success',data.data.message)
+        }).catch((err)=>{
+      toaster('error',err)
     })
-    // cartData.push(taskk)
-    // localStorage.setItem('CartData',JSON.stringify(cartData));
 
   }
   const disabelCart = ()=>{
@@ -128,9 +126,7 @@ function ProductDetails(props) {
    }
   const getDetails=(id)=>{
 
-    axios.get(`http://localhost:3066/product/${id}`)
-    // fetch('https://dull-plum-parrot-boot.cyclic.app/product/'+id)
-    // .then(res=>res.json())
+    axios.get(`https://dull-plum-parrot-boot.cyclic.app/product/${id}`)
     .then((res)=>{
       let data = res.data.data
     imgArray[0].img = data.image_1

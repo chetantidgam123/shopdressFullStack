@@ -5,8 +5,13 @@ import {useFormik} from "formik";
 import { paymenpageSchema, signUpSchema } from './schemas';
 import CARTMENU from "../Cart/Cartt"
 import { Navigate,useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { data } from 'jquery';
+import { useDispatch } from 'react-redux';
+import { GetCartData } from '../../Actions/CartAction';
 // import { signUpSchema } from './schemas/index ';
 const Carddetails = () => {
+  const dispatch=useDispatch();
   const navigate=useNavigate();
   const Formik=useFormik({
     initialValues:{
@@ -18,9 +23,15 @@ const Carddetails = () => {
     },
     validationSchema:paymenpageSchema ,
     onSubmit:values=>{
-      console.log("clicked")
-      console.log(Formik.values+"values...");
-     // alert(JSON.stringify(values,null,2))
+      axios.get('https://dull-plum-parrot-boot.cyclic.app/user/clearcart',{
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("TokenID")}`,
+      }
+       })
+       .then((data)=>{
+        GetCartData(dispatch)
+       })
+       .catch()
       navigate("/success");
      
     }
